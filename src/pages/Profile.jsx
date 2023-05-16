@@ -2,12 +2,47 @@ import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCar
 import { useSelector } from 'react-redux'
 import React, { useState } from 'react';
 import { FaEdit, FaPhone, FaEnvelope} from 'react-icons/fa'
+import axios from 'axios';
+
 
 
 export default function PersonalProfile() {
     const { user } = useSelector((state) => state.auth)
     const [showModal, setShowModal] = useState(false);
+    const [users, setUsers] = useState([]);
 
+
+
+    const handleEditSubmit = (event, user) => {
+      event.preventDefault();
+      const token = localStorage.getItem('authToken');
+      const formData = new FormData(event.target);
+      const newUserInfo = {
+        name: formData.get('name'),
+        last_name: formData.get('last_name'),
+        phone: formData.get('phone'),
+        password: formData.get('password'),
+      };
+
+    
+      axios
+        .put(`http://192.168.1.9:5000/users/${user._id}`, newUserInfo, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then(response => {
+          setUsers(prevUsers =>
+            prevUsers.map(prevUser =>
+              prevUser._id === user._id ? response.data : prevUser,
+            ),
+          );
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
 
   return (
     <section className="vh-300">
@@ -48,7 +83,7 @@ export default function PersonalProfile() {
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
                         <MDBTypography tag="h6"><FaPhone /> Phone</MDBTypography>
-                        <MDBCardText className="text-muted">123 456 789</MDBCardText>
+                        <MDBCardText className="text-muted">{user.phone}</MDBCardText>
                       </MDBCol>
                     </MDBRow>
 
@@ -60,16 +95,39 @@ export default function PersonalProfile() {
                         <div className="modal-dialog modal-dialog-centered" role="document">
                             <div className="modal-content">
                             <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLongTitle">Are you sure to delete?</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => setShowModal(false)}>
                             <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
                         <div className="modal-body">
+                        <form onSubmit={event => handleEditSubmit(event, user)}>
+                        <div className='form-group'>
+                          <label>Name </label>
+                          <input type='text' name='name' defaultValue={user.name} />
                         </div>
-                        <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => setShowModal(false)}>Close</button>
-                        <button  type="button" className="btn btn-danger">Delete</button>
+                        <div className='form-group'>
+                          <label>Last Name</label>
+                          <input type='text' name='last_name' defaultValue={user.last_name} />
+                        </div>
+                        <div className='form-group'>
+                          <label>Phone</label>
+                          <input type='number' name='phone' defaultValue={user.phone} />
+                        </div>
+                        <div className='form-group'>
+                          <label>Email</label>
+                          <input type='email' name='email' defaultValue={user.email} />
+                        </div>
+                        <div className='form-group'>
+                          <label>Password</label>
+                          <input type='password' name='password' defaultValue={user.password} />
+                        </div>
+          
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => setShowModal(false)}>Close</button>
+                    <button type='submit' className="btn btn-success">Save Changes</button>
+                  </div>  
+                  
+                </form>      
                         </div>
                     </div>
                     </div>

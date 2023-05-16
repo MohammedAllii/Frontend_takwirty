@@ -2,16 +2,12 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createTerrain } from '../features/terrains/terrainSlice'
 import {
-  MDBBtn,
   MDBContainer,
   MDBCard,
   MDBCardBody,
   MDBCol,
   MDBRow,
-  MDBInput,
-  MDBCheckbox,
-  MDBIcon
-}
+  MDBInput}
 from 'mdb-react-ui-kit';
 
 function TerrainForm() {
@@ -44,7 +40,7 @@ function TerrainForm() {
   return (
       <MDBContainer fluid>
   
-        <div className="p-2 bg-image" style={{marginTop:'-150px',backgroundImage: 'url(./bg.jpg)', height: '400px',width: '600px',display:'block',margin:'auto'}}></div>
+        <div className="p-2 bg-image" style={{marginTop:'-150px',backgroundImage: 'url(./player.gif)', height: '600px',width: '600px',display:'block',margin:'auto'}}></div>
   
         <MDBCard className='mx-2 mb-2 p-2 shadow-2' style={{marginTop: '-100px', background: 'hsla(0, 0%, 100%, 0.8)', backdropFilter: 'blur(30px)'}}>
           <MDBCardBody className='p-5 text-center'>

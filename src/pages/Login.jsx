@@ -106,7 +106,7 @@ function Login() {
         </MDBCol>
 
         <MDBCol col='6'>
-          <img src="./img3.png" class="w-100 rounded-4 shadow-4"
+          <img src="./footballer.gif" class="w-100 rounded-4 shadow-4"
             alt="" fluid/>
         </MDBCol>
 

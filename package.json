@@ -1,7 +1,7 @@
 {
   "name": "takwirti",
   "version": "0.1.0",
-  "proxy": "http://192.168.1.6:5000",
+  "proxy": "http://192.168.1.9:5000",
   "private": true,
   "dependencies": {
     "@bitiumagency/web3-react-modal": "^6.0.0",
@@ -22,6 +22,7 @@
     "mdbreact": "^5.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
+    "react-datepicker": "^4.11.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.5",

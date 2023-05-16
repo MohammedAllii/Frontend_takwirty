@@ -14,6 +14,7 @@ import 'reactjs-popup/dist/index.css';
 import { deleteTerrain } from '../features/terrains/terrainSlice'
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faMapMarkerAlt, faMoneyBill, faFileText, faDrum } from '@fortawesome/free-solid-svg-icons';
 
@@ -28,7 +29,7 @@ export default function App() {
     const token = localStorage.getItem('authToken');
 
     axios
-      .get('http://192.168.1.6:5000/terrains', {
+      .get('http://192.168.1.9:5000/terrains', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -52,14 +53,14 @@ const handleEditSubmit = (event, terrain) => {
     description: formData.get('description'),
   };
 
-  // Add code to handle image upload
+  // Add code to handle image upload 
   const imageFile = formData.get('image');
   if (imageFile) {
     newTerrainInfo.image = imageFile;
   }
 
   axios
-    .put(`http://192.168.1.6:5000/terrains/${terrain._id}`, newTerrainInfo, {
+    .put(`http://192.168.1.9:5000/terrains/${terrain._id}`, newTerrainInfo, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -78,36 +79,30 @@ const handleEditSubmit = (event, terrain) => {
 };
   return (
     <div>
-    {terrains.map(terrain => (
-    <MDBCard style={{ maxWidth: '599x',marginLeft:'110px',marginTop:'45px' }}>
+    {terrains.map((terrain) => (
+    <MDBCard key={terrain._id} style={{ maxWidth: '599x',marginLeft:'110px',marginTop:'45px',borderRadius:'15px' }}>
       <MDBRow className='g-0'>
-        <MDBCol md='4'>
-          <MDBCardImage src={terrain.image} width="950px" alt='...' fluid />
+        <MDBCol>
+          <MDBCardImage src={terrain.image} style={{ width: '100%',height:'100%',borderRadius:'15px'}} alt='...' />
         </MDBCol>
         <MDBCol md='8'>
           <MDBCardBody>
             <MDBCardTitle><FontAwesomeIcon icon={faDrum} /> {terrain.nom}</MDBCardTitle>
-            <MDBCardText style={{ fontFamily: 'bold',fontSize:'20px',marginLeft: -550}}>
-            <FontAwesomeIcon icon={faMapMarkerAlt} /> {terrain.adresse}
+            <MDBCardText >
+            <FontAwesomeIcon icon={faMoneyBill} style={{ fontFamily: 'bold',fontSize:'20px',marginLeft: -495}}/> {terrain.prix} Dt
+            <FontAwesomeIcon icon={faMapMarkerAlt} style={{ fontFamily: 'bold',fontSize:'20px',marginLeft: -175,color:'green'}}/>  {terrain.adresse} 
             </MDBCardText>
             <MDBCardText>
-            <FontAwesomeIcon icon={faFileText} /> <div className='spoiler'>{terrain.description}</div>
-            </MDBCardText>
-            <MDBCardText style={{ fontFamily: 'bold',fontSize:'20px',marginLeft: -500}}>
-            <FontAwesomeIcon icon={faMoneyBill} />  {terrain.prix} Dt
+            <FontAwesomeIcon icon={faFileText} /> <div className='spoiler'>{terrain.description.substring(0, 100)} ...</div>
             </MDBCardText>
             <div style={{ display: 'flex' }}>
-              <button type="button" className="btn btn-success" style={{ marginLeft: 450 }} onClick={() => setShowModal(true)}>
-                <FaEdit />Edit
+              <button type="button" className="btn btn-success" style={{ marginLeft: 540 }} onClick={() => setShowModal(true)}>
+                <FaEdit />
               </button>  
               <button type="button" className="btn btn-warning" style={{ marginLeft: 4 }} onClick={() => setShowModal2(true)}>
-                <FaTrash />Delete
+                <FaTrash />
               </button> 
-            </div>
-   
-            <MDBCardText>
-            
-{showModal && (
+              {showModal && (
   <div className="modal fade show" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style={{ display: "block" }}>
     <div className="modal-dialog modal-dialog-centered" role="document">
       <div className="modal-content">
@@ -129,7 +124,7 @@ const handleEditSubmit = (event, terrain) => {
                           <input type='text' name='adresse' defaultValue={terrain.adresse} />
                         </div>
                         <div className='form-group'>
-                          <label>Prix</label>
+                          <label>Prix </label>
                           <input type='number' name='prix' defaultValue={terrain.prix} />
                         </div>
                         <div className='form-group'>
@@ -163,6 +158,10 @@ const handleEditSubmit = (event, terrain) => {
   
   
 )}
+</div>
+<MDBCardText>
+            
+            
 
 {showModal2 && (
   <div className="modal fade show" tabIndex="-1" role="dialog2" aria-labelledby="exampleModalCenterTitle2" aria-modal="true" style={{ display: "block" }}>
@@ -185,14 +184,14 @@ const handleEditSubmit = (event, terrain) => {
   </div>
 )}
 
-            </MDBCardText>
-          </MDBCardBody>
-        </MDBCol>
-      </MDBRow>
-      
-    </MDBCard>
-    
-          ))}
+</MDBCardText>
+</MDBCardBody>
+</MDBCol>
+</MDBRow>
+
+</MDBCard>
+
+))}
           
           
 </div>
