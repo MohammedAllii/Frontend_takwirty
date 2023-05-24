@@ -1,0 +1,29 @@
+
+.users-list-container {
+    height: 400px;
+    width: 100%;
+  }
+
+  .users-list-heading {
+    font-size: 24px;
+    margin-bottom: 16px;
+    height: 55px;
+    background-color: #EBF2FA;
+
+  }
+  
+
+  .users-list-button-edit {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+  }
+  
+  .users-list-button-delete {
+    padding: 8px 16px;
+    border: none;
+    background-color: red;
+    color: #fff;
+  }
+  

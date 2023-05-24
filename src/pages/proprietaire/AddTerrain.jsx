@@ -1,4 +1,4 @@
-import TerrainForm from "../components/TerrainForm";
+import TerrainForm from "../../components/TerrainForm";
 
 function AddTerrain(){
 return (

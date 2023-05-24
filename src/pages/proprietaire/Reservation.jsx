@@ -4,21 +4,47 @@
   import { FaEye, FaMap, FaMapMarked, FaMapMarkedAlt, FaMapMarkerAlt, FaTrash } from 'react-icons/fa';
   import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
   import { Link } from 'react-router-dom';
-
+  import { useDispatch } from 'react-redux'
+  import { useNavigate } from 'react-router-dom'
+  import { useSelector } from 'react-redux'
+  import { getTerrains, reset } from '../../features/terrains/terrainSlice'
 
 
 
 
 function Reservation() {
     const [terrains, setTerrains] = useState([]);
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+    const uri="http://192.168.1.9:5000";
 
+    const { user } = useSelector((state) => state.auth)
+    const { isError, message } = useSelector(
+      (state) => state.terrains
+    )
+  
+    useEffect(() => {
+      if (isError) {
+        console.log(message)
+      }
+  
+      if (!user) {
+        navigate('/login')
+      }
+  
+      dispatch(getTerrains())
+  
+      return () => {
+        dispatch(reset())
+      }
+    }, [user, navigate, isError, message, dispatch])
   
   
     useEffect(() => {
       const token = localStorage.getItem('authToken');
   
       axios
-        .get('http://192.168.1.9:5000/terrains', {
+        .get(`${uri}/terrains`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -31,41 +57,6 @@ function Reservation() {
         });
     }, []);
   
-  const handleEditSubmit = (event, terrain) => {
-    event.preventDefault();
-    const token = localStorage.getItem('authToken');
-    const formData = new FormData(event.target);
-    const newTerrainInfo = {
-      nom: formData.get('nom'),
-      adresse: formData.get('adresse'),
-      prix: formData.get('prix'),
-      description: formData.get('description'),
-    };
-  
-    // Add code to handle image upload
-    const imageFile = formData.get('image');
-    if (imageFile) {
-      newTerrainInfo.image = imageFile;
-    }
-  
-    axios
-      .put(`http://192.168.1.9:5000/terrains/${terrain._id}`, newTerrainInfo, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(response => {
-        setTerrains(prevTerrains =>
-          prevTerrains.map(prevTerrain =>
-            prevTerrain._id === terrain._id ? response.data : prevTerrain,
-          ),
-        );
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
 
   return (
     <div>
@@ -84,7 +75,7 @@ function Reservation() {
     <td>
       <div className='d-flex align-items-center'>
         <img
-          src={`http://localhost:3000/${terrain.image}`}
+          src={`${uri}/uploads/${terrain.image}`}
           alt=''
           style={{ width: '45px', height: '45px' }}
           className='rounded-circle'
@@ -99,14 +90,19 @@ function Reservation() {
     </td>
     <td>
     {terrain.etat === 0 ? (
-        <MDBBadge color='success' pill>
-        Approuvé
-        </MDBBadge>
-    ) : (
-        <MDBBadge color='danger' pill>
-        Rejeter
-        </MDBBadge>
-    )}
+  <MDBBadge color='warning' pill>
+    en attente
+  </MDBBadge>
+) : terrain.etat === 1 ? (
+  <MDBBadge color='success' pill>
+    Approuvé
+  </MDBBadge>
+) : (
+  <MDBBadge color='danger' pill>
+    réfuser
+  </MDBBadge>
+)}
+
     </td>
 
     <td>

@@ -10,8 +10,10 @@
     "@fontsource/roboto": "^4.5.8",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.12",
     "@mui/styled-engine-sc": "^5.11.11",
+    "@mui/x-data-grid": "^6.5.0",
     "@reduxjs/toolkit": "^1.7.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -31,6 +33,9 @@
     "react-toastify": "^9.1.1",
     "reactjs-popup": "^2.0.5",
     "styled-components": "^5.3.8",
+    "react-admin": "^4.10.5",
+    "react-query": "^3.39.3",
+    "sass": "^1.62.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -56,5 +61,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "resolve-url-loader": "^4.0.0"
   }
 }

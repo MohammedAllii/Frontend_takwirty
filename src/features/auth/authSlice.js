@@ -33,15 +33,20 @@ export const register = createAsyncThunk(
 // Login user
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   try {
-    return await authService.login(user)
+    const response = await authService.login(user);
+    const { role } = response;
+    
+      return response;
+
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
-      error.toString()
-    return thunkAPI.rejectWithValue(message)
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
   }
-})
+});
+
 
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout()

@@ -23,6 +23,8 @@ function Dashboard() {
 
     if (!user) {
       navigate('/login')
+    }else if (user.role == 3) {
+      navigate('/user');
     }
 
     dispatch(getTerrains())

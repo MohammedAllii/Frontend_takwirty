@@ -15,9 +15,9 @@ export const createTerrain = createAsyncThunk(
   async (terrainData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token
-    
+
       return await terrainService.createTerrain(terrainData, token)
-      
+
     } catch (error) {
       const message =
         (error.response &&
@@ -49,7 +49,7 @@ export const getTerrains = createAsyncThunk(
       return thunkAPI.rejectWithValue(message)
     }
   }
-  
+
 )
 
 // Delete user terrain
